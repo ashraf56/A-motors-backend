@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-const Allroute = [
+const allroute = [
     {
         path: '/',
         
@@ -10,6 +10,6 @@ const Allroute = [
 ]
 
 
-Allroute.forEach(r => router.use(r.path))
+allroute.forEach(r => router.use(r.path))
 
 export default router;
