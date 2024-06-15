@@ -29,6 +29,6 @@ const Carschema = new Schema<CarInterface>({
 
 
 
-const Car = model<CarInterface>('car', Carschema)
+const Car = model<CarInterface>('Car', Carschema)
 
 export default Car

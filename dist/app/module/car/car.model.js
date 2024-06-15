@@ -21,5 +21,5 @@ const Carschema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
-const Car = (0, mongoose_1.model)('car', Carschema);
+const Car = (0, mongoose_1.model)('Car', Carschema);
 exports.default = Car;
