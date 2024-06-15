@@ -19,6 +19,8 @@ const UserSchema = new Schema<Userinterface>({
     phone: { type: String, required: true },
     adress: { type: String, required: true }
 
+}, {
+    timestamps: true
 })
 
 
