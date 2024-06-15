@@ -5,6 +5,6 @@ export interface Userinterface {
     role?: 'user' | 'admin';
     password: string;
     phone: string;
-    adress: string
+    address: string
 
 }

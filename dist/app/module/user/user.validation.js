@@ -9,7 +9,7 @@ const createUservalidationSchema = zod_1.z.object({
         role: zod_1.z.string().default('user'),
         password: zod_1.z.string({ invalid_type_error: 'password must be string' }).max(8),
         phone: zod_1.z.string(),
-        adress: zod_1.z.string()
+        address: zod_1.z.string()
     })
 });
 exports.UserValidations = {
