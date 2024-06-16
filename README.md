@@ -1,1 +1,1 @@
-# RentaLux Backend
+# Car Rental service Backend
