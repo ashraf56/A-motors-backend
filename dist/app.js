@@ -15,7 +15,7 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use('/api', routes_1.default);
 app.get('/', (req, res) => {
-    res.send('Hello  World!');
+    res.send('Car rental service running..!');
 });
 app.use(globalErrorhandler_1.default);
 app.use(notfound_1.default);

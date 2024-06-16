@@ -15,7 +15,7 @@ app.use('/api', router)
 
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello  World!')
+  res.send('Car rental service running..!')
 })
 
 app.use(globalErrorhandler)
