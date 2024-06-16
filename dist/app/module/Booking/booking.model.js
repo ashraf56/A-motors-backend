@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const BookingSchema = new mongoose_1.Schema({
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'User'

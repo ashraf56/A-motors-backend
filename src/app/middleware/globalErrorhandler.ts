@@ -3,20 +3,29 @@
 import { ErrorRequestHandler } from "express";
 import config from "../config/config";
 import { Errorsource } from "../random_Interface/terrorsource";
+import { ZodError } from "zod";
+import zodValidateErrors from "../errors/zodValidateErrors";
 
 const globalErrorhandler: ErrorRequestHandler = ((error, req, res, next) => {
-    const statusCode = error.statusCode || 500
-    const message = error.message || "something error"
-
-  
+    let statusCode = error.statusCode || 500
+    let message = error.message || "something error"
 
 
-    const errorSource: Errorsource = [
+
+    // default error path
+    let errorSource: Errorsource = [
         {
             path: '',
             message: "something error"
         }
     ]
+
+    if (error instanceof ZodError) {
+        const errs = zodValidateErrors(error);
+        statusCode = errs?.statusCode;
+        message = errs?.message;
+        errorSource = errs?.errorSource
+    }
 
     return res.status(statusCode).json({
         success: false,

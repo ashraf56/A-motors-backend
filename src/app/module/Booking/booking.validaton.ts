@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const CreateBookingvzodschema =z.object({
     body:z.object({
-        date:z.date(),
+        date:z.string(),
         user:z.string().optional(),
         car:z.string(),
         startTime:z.string({

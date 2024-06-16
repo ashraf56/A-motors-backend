@@ -3,7 +3,7 @@ import { BookingInterface } from "./booking.interface";
 
 
 const BookingSchema = new Schema<BookingInterface>({
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'

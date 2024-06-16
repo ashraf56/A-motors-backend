@@ -4,15 +4,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("../config/config"));
+const zod_1 = require("zod");
+const zodValidateErrors_1 = __importDefault(require("../errors/zodValidateErrors"));
 const globalErrorhandler = ((error, req, res, next) => {
-    const statusCode = error.statusCode || 500;
-    const message = error.message || "something error";
-    const errorSource = [
+    let statusCode = error.statusCode || 500;
+    let message = error.message || "something error";
+    // default error path
+    let errorSource = [
         {
             path: '',
             message: "something error"
         }
     ];
+    if (error instanceof zod_1.ZodError) {
+        const errs = (0, zodValidateErrors_1.default)(error);
+        statusCode = errs === null || errs === void 0 ? void 0 : errs.statusCode;
+        message = errs === null || errs === void 0 ? void 0 : errs.message;
+        errorSource = errs === null || errs === void 0 ? void 0 : errs.errorSource;
+    }
     return res.status(statusCode).json({
         success: false,
         message,

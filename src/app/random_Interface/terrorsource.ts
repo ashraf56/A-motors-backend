@@ -7,5 +7,5 @@ export type GenericErrorResponse = {
 
     statusCode: number,
     message: string,
-    errorsource: Errorsource
+    errorSource: Errorsource
 }
