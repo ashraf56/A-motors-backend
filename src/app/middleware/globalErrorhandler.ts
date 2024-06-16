@@ -2,15 +2,13 @@
 /* eslint-disable no-unused-vars */
 import { ErrorRequestHandler } from "express";
 import config from "../config/config";
+import { Errorsource } from "../random_Interface/terrorsource";
 
 const globalErrorhandler: ErrorRequestHandler = ((error, req, res, next) => {
     const statusCode = error.statusCode || 500
     const message = error.message || "something error"
 
-    type Errorsource = {
-        path: string | number,
-        message: string
-    }[]
+  
 
 
     const errorSource: Errorsource = [
