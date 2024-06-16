@@ -4,7 +4,6 @@ export type Errorsource = {
 }[]
 
 export type GenericErrorResponse = {
-
     statusCode: number,
     message: string,
     errorSource: Errorsource
