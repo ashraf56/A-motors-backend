@@ -3,11 +3,11 @@ import { z } from "zod";
 const CreateBookingvzodschema =z.object({
     body:z.object({
         date:z.date(),
-        user:z.string(),
+        user:z.string().optional(),
         car:z.string(),
         startTime:z.string(),
-        endTime:z.string(),
-        totalCost:z.number()
+        endTime:z.string().optional(),
+        totalCost:z.number().optional()
 
     })
 })

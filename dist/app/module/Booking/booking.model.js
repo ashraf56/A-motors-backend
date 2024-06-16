@@ -5,7 +5,6 @@ const BookingSchema = new mongoose_1.Schema({
     date: { type: Date, required: true },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
-        required: true,
         ref: 'User'
     },
     car: {
@@ -14,10 +13,10 @@ const BookingSchema = new mongoose_1.Schema({
         required: true
     },
     startTime: {
-        type: String, trim: true, required: true
+        type: String, required: true
     },
-    endTime: { type: String, trim: true, required: true },
-    totalCost: { type: Number, required: true, default: 0 }
+    endTime: { type: String, default: null },
+    totalCost: { type: Number, default: 0 }
 }, {
     timestamps: true
 });

@@ -13,9 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingServices = void 0;
+const car_model_1 = __importDefault(require("../car/car.model"));
 const booking_model_1 = __importDefault(require("./booking.model"));
 const createBookingDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.default.create(payload);
+    // find user 
+    const carid = yield car_model_1.default.findById(payload.car);
+    if (!carid) {
+        throw new Error('car not found');
+    }
+    const info = {
+        date: payload.date,
+        car: carid,
+        startTime: payload.startTime,
+        endTime: payload.endTime,
+        totalCost: payload.totalCost,
+    };
+    const result = yield booking_model_1.default.create(info);
     return result;
 });
 exports.BookingServices = {

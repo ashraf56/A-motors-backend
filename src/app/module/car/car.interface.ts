@@ -8,7 +8,7 @@ export interface CarInterface {
     color: string;
     isElectric: boolean;
     status: Tstatus;
-    feature: string[];
+    features: string[];
     pricePerHour: number;
     isDeleted: boolean
 }
