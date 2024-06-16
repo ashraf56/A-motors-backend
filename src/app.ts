@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import router from './app/allroute/routes';
+import noRoutefound from './app/middleware/notfound';
 
 const app = express()
 
@@ -16,7 +17,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello  World!')
 })
 
-
+app.use(noRoutefound)
 
 
 export default app;
