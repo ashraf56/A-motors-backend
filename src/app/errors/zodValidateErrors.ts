@@ -7,7 +7,6 @@ const zodValidateErrors = (error: ZodError): GenericErrorResponse => {
             // finding last index from path
             path: i.path[i?.path.length - 1],
             message: i.message
-
         }
     }
 
