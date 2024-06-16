@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import router from './app/allroute/routes';
 import noRoutefound from './app/middleware/notfound';
+import globalErrorhandler from './app/middleware/globalErrorhandler';
 
 const app = express()
 
@@ -16,6 +17,8 @@ app.use(cookieParser())
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello  World!')
 })
+
+app.use(globalErrorhandler)
 
 app.use(noRoutefound)
 

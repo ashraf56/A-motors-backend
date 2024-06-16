@@ -5,7 +5,9 @@ const CreateBookingvzodschema =z.object({
         date:z.date(),
         user:z.string().optional(),
         car:z.string(),
-        startTime:z.string(),
+        startTime:z.string({
+            invalid_type_error:"startTime must be String"
+        }),
         endTime:z.string().optional(),
         totalCost:z.number().optional()
 
