@@ -17,7 +17,6 @@ const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHan
 const car_model_1 = __importDefault(require("../car/car.model"));
 const booking_model_1 = __importDefault(require("./booking.model"));
 const createBookingDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // find user 
     const carid = yield car_model_1.default.findById(payload.car);
     if (!carid) {
         (0, trhowErrorHandller_1.default)('car not found');

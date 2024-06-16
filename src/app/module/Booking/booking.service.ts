@@ -5,7 +5,7 @@ import Booking from "./booking.model";
 
 const createBookingDB = async (payload: BookingInterface) => {
 
-    // find user 
+   
 
 
     const carid = await Car.findById(payload.car)
