@@ -18,9 +18,13 @@ const CreateCarDB = async (payload: CarInterface) => {
 
 
 
-
+const getALlCarInfoFromDB = async ()=>{
+    const result = await Car.find()
+    return result
+}
 
 export const CarService = {
-    CreateCarDB
+    CreateCarDB,
+    getALlCarInfoFromDB
 }
 

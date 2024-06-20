@@ -23,6 +23,11 @@ const CreateCarDB = (payload) => __awaiter(void 0, void 0, void 0, function* () 
     const cars = yield car_model_1.default.create(payload);
     return cars;
 });
+const getALlCarInfoFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield car_model_1.default.find();
+    return result;
+});
 exports.CarService = {
-    CreateCarDB
+    CreateCarDB,
+    getALlCarInfoFromDB
 };
