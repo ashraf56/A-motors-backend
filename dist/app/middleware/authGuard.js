@@ -16,6 +16,7 @@ const tryCatchWrapper_1 = require("../utills/tryCatchWrapper");
 const trhowErrorHandller_1 = __importDefault(require("../utills/trhowErrorHandller"));
 const config_1 = __importDefault(require("../config/config"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const user_model_1 = __importDefault(require("../module/user/user.model"));
 const authGuardValidator = () => {
     return (0, tryCatchWrapper_1.tryCatchWrapper)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const authHeader = req.headers.authorization;
@@ -30,6 +31,10 @@ const authGuardValidator = () => {
         }
         const decoded = jsonwebtoken_1.default.verify(finalToken, config_1.default.JWT_sec_Token);
         const { id, role } = decoded;
+        const user = yield user_model_1.default.findById({ _id: id });
+        if (!user) {
+            (0, trhowErrorHandller_1.default)("User not found");
+        }
         next();
     }));
 };

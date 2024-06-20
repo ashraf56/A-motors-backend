@@ -5,6 +5,7 @@ import { tryCatchWrapper } from "../utills/tryCatchWrapper"
 import trhowErrorHandller from "../utills/trhowErrorHandller";
 import config from "../config/config";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import User from "../module/user/user.model";
 
 const authGuardValidator = () => {
     return tryCatchWrapper(
@@ -22,6 +23,11 @@ const authGuardValidator = () => {
             }
             const decoded = jwt.verify(finalToken, config.JWT_sec_Token as string) as JwtPayload
             const{  id, role}  = decoded
+
+            const user = await User.findById({_id:id})
+            if (!user) {
+                trhowErrorHandller("User not found")
+            }
 
 next()
         }
