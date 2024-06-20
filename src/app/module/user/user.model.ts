@@ -1,9 +1,9 @@
 import { Schema, model } from "mongoose";
-import { Userinterface } from "./user.interface";
+import { Userinterface, Usermodels } from "./user.interface";
 import bcrypt from 'bcrypt';
 import config from "../../config/config";
 
-const UserSchema = new Schema<Userinterface>({
+const UserSchema = new Schema<Userinterface, Usermodels>({
     name: {
         type: String,
         required: [true, "name is required"]
@@ -31,6 +31,11 @@ UserSchema.pre('save', async function (next) {
     next()
 })
 
-const User = model<Userinterface>('User', UserSchema)
+UserSchema.statics.isPasswordmatch = async function (inputtextPassword, hashpassword) {
+    return bcrypt.compare(inputtextPassword, hashpassword)
+}
+
+
+const User = model<Userinterface, Usermodels>('User', UserSchema)
 
 export default User

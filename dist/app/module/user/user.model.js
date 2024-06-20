@@ -41,5 +41,10 @@ UserSchema.pre('save', function (next) {
         next();
     });
 });
+UserSchema.statics.isPasswordmatch = function (inputtextPassword, hashpassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return bcrypt_1.default.compare(inputtextPassword, hashpassword);
+    });
+};
 const User = (0, mongoose_1.model)('User', UserSchema);
 exports.default = User;
