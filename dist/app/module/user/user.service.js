@@ -13,11 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Userservices = void 0;
+const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const user_model_1 = __importDefault(require("./user.model"));
 const createUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserexist = yield user_model_1.default.findOne({ email: payload.email });
+    if (isUserexist) {
+        (0, trhowErrorHandller_1.default)('User already found');
+    }
     const result = yield user_model_1.default.create(payload);
     return result;
 });
+const LogInUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserexist = yield user_model_1.default.findOne({ email: payload.email });
+    if (!isUserexist) {
+        (0, trhowErrorHandller_1.default)('User not found');
+    }
+});
 exports.Userservices = {
-    createUserDB
+    createUserDB,
+    LogInUserDB
 };

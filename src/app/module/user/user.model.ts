@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import { Userinterface } from "./user.interface";
-
+import bcrypt from 'bcrypt';
+import config from "../../config/config";
 
 const UserSchema = new Schema<Userinterface>({
     name: {
@@ -10,7 +11,7 @@ const UserSchema = new Schema<Userinterface>({
     email: {
         type: String,
         required: [true, "email is required"],
-        unique:true
+        unique: true
     },
     role: {
         type: String,
@@ -25,7 +26,10 @@ const UserSchema = new Schema<Userinterface>({
 })
 
 
-
+UserSchema.pre('save', async function (next) {
+    this.password = await bcrypt.hash(this.password, Number(config.saltNumber))
+    next()
+})
 
 const User = model<Userinterface>('User', UserSchema)
 
