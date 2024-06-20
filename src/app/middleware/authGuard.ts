@@ -7,7 +7,7 @@ import config from "../config/config";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../module/user/user.model";
 
-const authGuardValidator = () => {
+const authGuardValidator = (...requireRole: UserRoletypes[]) => {
     return tryCatchWrapper(
         async (req: Request, res: Response, next: NextFunction) => {
             const authHeader = req.headers.authorization as string;
@@ -29,6 +29,7 @@ const authGuardValidator = () => {
                 trhowErrorHandller("User not found")
             }
 
+            req.user = decoded as JwtPayload
 next()
         }
 

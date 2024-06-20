@@ -17,7 +17,7 @@ const trhowErrorHandller_1 = __importDefault(require("../utills/trhowErrorHandll
 const config_1 = __importDefault(require("../config/config"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = __importDefault(require("../module/user/user.model"));
-const authGuardValidator = () => {
+const authGuardValidator = (...requireRole) => {
     return (0, tryCatchWrapper_1.tryCatchWrapper)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer')) {
@@ -35,6 +35,7 @@ const authGuardValidator = () => {
         if (!user) {
             (0, trhowErrorHandller_1.default)("User not found");
         }
+        req.user = decoded;
         next();
     }));
 };

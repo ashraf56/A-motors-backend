@@ -11,7 +11,7 @@ export interface Userinterface {
 
 }
 
-
+// export interface UserRoletypes = keyof User
 
 export interface Usermodels extends Model<Userinterface>{
     isPasswordmatch(inputtextPassword:string|unknown,hashpassword:string|unknown):Promise<boolean>
