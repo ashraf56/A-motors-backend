@@ -31,6 +31,7 @@ UserSchema.pre('save', async function (next) {
     next()
 })
 
+
 UserSchema.statics.isPasswordmatch = async function (inputtextPassword, hashpassword) {
     return bcrypt.compare(inputtextPassword, hashpassword)
 }

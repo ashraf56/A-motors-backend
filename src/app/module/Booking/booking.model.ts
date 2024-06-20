@@ -6,7 +6,7 @@ const BookingSchema = new Schema<BookingInterface>({
     date: { type: String, required: true },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     car: {
         type: Schema.Types.ObjectId,

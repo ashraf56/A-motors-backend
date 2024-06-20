@@ -5,7 +5,7 @@ const BookingSchema = new mongoose_1.Schema({
     date: { type: String, required: true },
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     car: {
         type: mongoose_1.Schema.Types.ObjectId,

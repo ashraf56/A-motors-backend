@@ -16,13 +16,17 @@ exports.BookingServices = void 0;
 const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const car_model_1 = __importDefault(require("../car/car.model"));
 const booking_model_1 = __importDefault(require("./booking.model"));
-const createBookingDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const user_model_1 = __importDefault(require("../user/user.model"));
+const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, function* () {
     const carid = yield car_model_1.default.findById(payload.car);
     if (!carid) {
         (0, trhowErrorHandller_1.default)('car not found');
     }
+    // find user id from db
+    const user = yield user_model_1.default.findById(userID);
     const info = {
         date: payload.date,
+        user: user,
         car: carid,
         startTime: payload.startTime,
         endTime: payload.endTime,
