@@ -1,7 +1,8 @@
+import config from "../../config/config";
 import trhowErrorHandller from "../../utills/trhowErrorHandller";
 import { Userinterface } from "./user.interface";
 import User from "./user.model";
-
+import jwt from 'jsonwebtoken'
 
 const createUserDB = async (payload: Userinterface) => {
     const isUserexist = await User.findOne({ email: payload.email })
@@ -31,7 +32,17 @@ const LogInUserDB = async (payload: Userinterface) => {
         trhowErrorHandller('password not match')
     }
 
-return users
+const tokenplayload = {
+    id:users?._id,
+    role:users?.role
+}
+
+const accessToken = jwt.sign(tokenplayload,config.JWT_sec_Token as string,{expiresIn:'365D'})
+
+
+return {
+    accessToken
+}
 
 }
 

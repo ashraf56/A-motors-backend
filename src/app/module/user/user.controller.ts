@@ -16,15 +16,18 @@ const CreateUserController = tryCatchWrapper(
 )
 
 
-const LoginController= tryCatchWrapper(
-    async (req,res)=>{
-        const payload = req.body;
-        const result = await Userservices.LogInUserDB(payload)
+const LoginController = tryCatchWrapper(
+    async (req, res) => {
+
+        const result = await Userservices.LogInUserDB(req.body)
+        const { accessToken } = result
         res.status(200).json({
             success: true,
             statusCode: 201,
             message: "User Logged in successfully",
-            data: result
+            data: {
+                accessToken
+            }
         })
     }
 )

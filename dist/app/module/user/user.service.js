@@ -13,8 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Userservices = void 0;
+const config_1 = __importDefault(require("../../config/config"));
 const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const user_model_1 = __importDefault(require("./user.model"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserexist = yield user_model_1.default.findOne({ email: payload.email });
     if (isUserexist) {
@@ -32,7 +34,14 @@ const LogInUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () 
     if (!passwordMatcher) {
         (0, trhowErrorHandller_1.default)('password not match');
     }
-    return users;
+    const tokenplayload = {
+        id: users === null || users === void 0 ? void 0 : users._id,
+        role: users === null || users === void 0 ? void 0 : users.role
+    };
+    const accessToken = jsonwebtoken_1.default.sign(tokenplayload, config_1.default.JWT_sec_Token, { expiresIn: '365D' });
+    return {
+        accessToken
+    };
 });
 exports.Userservices = {
     createUserDB,

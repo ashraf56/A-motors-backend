@@ -14,13 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const tryCatchWrapper_1 = require("../utills/tryCatchWrapper");
 const trhowErrorHandller_1 = __importDefault(require("../utills/trhowErrorHandller"));
+const config_1 = __importDefault(require("../config/config"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authGuardValidator = () => {
     return (0, tryCatchWrapper_1.tryCatchWrapper)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer')) {
             (0, trhowErrorHandller_1.default)('You have no access to this route ');
         }
-        console.log(authHeader);
+        // ensure that token included with Bearer
+        const formatedToken = authHeader.startsWith('Bearer') ? authHeader : `Bearer ${authHeader}`;
+        const finalToken = formatedToken.split(' ')[1];
+        if (!finalToken) {
+            (0, trhowErrorHandller_1.default)('You have no access to this route ');
+        }
+        const decoded = jsonwebtoken_1.default.verify(finalToken, config_1.default.JWT_sec_Token);
+        const { id, role } = decoded;
+        next();
     }));
 };
 exports.default = authGuardValidator;
