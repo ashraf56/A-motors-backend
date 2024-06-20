@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 
 export interface Userinterface {
     name: string;
@@ -7,4 +8,10 @@ export interface Userinterface {
     phone: string;
     address: string
 
+}
+
+
+
+export interface Usermodels extends Model<Userinterface>{
+    isPasswordmatch(inputtextPassword:string,hashpassword:string):Promise<boolean>
 }
