@@ -5,7 +5,7 @@ import authGuardValidator from "../../middleware/authGuard";
 
 const router = Router()
 
-router.post('/create-car',authGuardValidator(), CarContoller.createCarController)
+router.post('/create-car',authGuardValidator('admin'), CarContoller.createCarController)
 
 
 export const CarRoute = router
