@@ -27,7 +27,12 @@ const getALlCarInfoFromDB = () => __awaiter(void 0, void 0, void 0, function* ()
     const result = yield car_model_1.default.find();
     return result;
 });
+const getSIngleCArDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield car_model_1.default.findById({ _id: id });
+    return result;
+});
 exports.CarService = {
     CreateCarDB,
-    getALlCarInfoFromDB
+    getALlCarInfoFromDB,
+    getSIngleCArDB
 };
