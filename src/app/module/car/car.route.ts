@@ -14,6 +14,6 @@ router.post('/create-car',
 
 router.get('/', CarContoller.getAllCarController)
 
-
+router.get('/:id',CarContoller.getSingleCarController)
 
 export const CarRoute = router

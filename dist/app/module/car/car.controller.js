@@ -37,12 +37,12 @@ const getSingleCarController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res)
     res.status(200).json({
         success: true,
         statusCode: 200,
-        message: "Cars retrieved  successfully",
+        message: "Car retrieved  successfully",
         data: result
     });
 }));
 exports.CarContoller = {
     createCarController,
     getAllCarController,
-    getsi
+    getSingleCarController
 };

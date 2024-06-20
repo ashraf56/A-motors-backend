@@ -38,7 +38,7 @@ const getSingleCarController = tryCatchWrapper(
         res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "Cars retrieved  successfully",
+            message: "Car retrieved  successfully",
             data: result
         })
         
