@@ -22,6 +22,17 @@ const CreateUserController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) =
         data: result
     });
 }));
+const LoginController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.body;
+    const result = yield user_service_1.Userservices.LogInUserDB(payload);
+    res.status(200).json({
+        success: true,
+        statusCode: 201,
+        message: "User Logged in successfully",
+        data: result
+    });
+}));
 exports.UserCOntrollers = {
-    CreateUserController
+    CreateUserController,
+    LoginController
 };
