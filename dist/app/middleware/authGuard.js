@@ -17,7 +17,7 @@ const trhowErrorHandller_1 = __importDefault(require("../utills/trhowErrorHandll
 const config_1 = __importDefault(require("../config/config"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = __importDefault(require("../module/user/user.model"));
-const authGuardValidator = (...requireRole) => {
+const authGuardValidator = (...authorizeRole) => {
     return (0, tryCatchWrapper_1.tryCatchWrapper)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer')) {
@@ -34,6 +34,9 @@ const authGuardValidator = (...requireRole) => {
         const user = yield user_model_1.default.findById({ _id: id });
         if (!user) {
             (0, trhowErrorHandller_1.default)("User not found");
+        }
+        if (authorizeRole && !authorizeRole.includes(role)) {
+            (0, trhowErrorHandller_1.default)("You have no access to this route");
         }
         req.user = decoded;
         next();

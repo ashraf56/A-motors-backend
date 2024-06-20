@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
+import { UserRoles } from "./user.constant";
 
 export interface Userinterface {
     name: string;
@@ -10,8 +11,7 @@ export interface Userinterface {
     address: string
 
 }
-
-// export interface UserRoletypes = keyof User
+export type UserRoletypes = keyof typeof UserRoles
 
 export interface Usermodels extends Model<Userinterface>{
     isPasswordmatch(inputtextPassword:string|unknown,hashpassword:string|unknown):Promise<boolean>

@@ -6,8 +6,9 @@ import trhowErrorHandller from "../utills/trhowErrorHandller";
 import config from "../config/config";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../module/user/user.model";
+import { UserRoletypes } from "../module/user/user.interface";
 
-const authGuardValidator = (...requireRole: UserRoletypes[]) => {
+const authGuardValidator = (...authorizeRole: UserRoletypes[]) => {
     return tryCatchWrapper(
         async (req: Request, res: Response, next: NextFunction) => {
             const authHeader = req.headers.authorization as string;
@@ -22,15 +23,20 @@ const authGuardValidator = (...requireRole: UserRoletypes[]) => {
                 trhowErrorHandller('You have no access to this route ')
             }
             const decoded = jwt.verify(finalToken, config.JWT_sec_Token as string) as JwtPayload
-            const{  id, role}  = decoded
+            const { id, role } = decoded
 
-            const user = await User.findById({_id:id})
+            const user = await User.findById({ _id: id })
             if (!user) {
                 trhowErrorHandller("User not found")
             }
 
+
+            if (authorizeRole && !authorizeRole.includes(role)) {
+                trhowErrorHandller("You have no access to this route")
+            }
+
             req.user = decoded as JwtPayload
-next()
+            next()
         }
 
 
