@@ -17,6 +17,21 @@ const createCarController = tryCatchWrapper(
 )
 
 
+const getAllCarController = tryCatchWrapper(
+    async (req,res)=>{
+        const result = await CarService.getALlCarInfoFromDB();
+ 
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Cars retrieved  successfully",
+            data: result
+        })
+        
+    }
+)
+
 export const CarContoller = {
-    createCarController
+    createCarController,
+    getAllCarController
 }
