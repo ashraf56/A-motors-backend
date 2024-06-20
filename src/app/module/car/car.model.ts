@@ -7,7 +7,7 @@ import { Status } from "./car.constant";
 const Carschema = new Schema<CarInterface>({
     name: {
         type: String,
-        required: [true, "name is required"]
+        required: [true, "name is required"],
     },
     description: {
         type: String,

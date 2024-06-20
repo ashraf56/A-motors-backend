@@ -13,8 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarService = void 0;
+const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const car_model_1 = __importDefault(require("./car.model"));
 const CreateCarDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const existCar = yield car_model_1.default.findOne({ name: payload.name });
+    if (existCar) {
+        (0, trhowErrorHandller_1.default)("Already  created");
+    }
     const cars = yield car_model_1.default.create(payload);
     return cars;
 });

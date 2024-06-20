@@ -1,9 +1,15 @@
+import trhowErrorHandller from "../../utills/trhowErrorHandller";
 import { CarInterface } from "./car.interface";
 import Car from "./car.model";
 
 
 
-const CreateCarDB = async (payload:CarInterface)=>{
+const CreateCarDB = async (payload: CarInterface) => {
+
+    const existCar = await Car.findOne({ name: payload.name })
+    if (existCar) {
+        trhowErrorHandller("Already  created")
+    }
 
 
     const cars = await Car.create(payload)
@@ -11,7 +17,10 @@ const CreateCarDB = async (payload:CarInterface)=>{
 }
 
 
-export const CarService ={
+
+
+
+export const CarService = {
     CreateCarDB
 }
 

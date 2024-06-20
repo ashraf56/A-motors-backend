@@ -5,7 +5,7 @@ const car_constant_1 = require("./car.constant");
 const Carschema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: [true, "name is required"]
+        required: [true, "name is required"],
     },
     description: {
         type: String,
