@@ -35,6 +35,7 @@ const authGuardValidator = (...authorizeRole) => {
         if (!user) {
             (0, trhowErrorHandller_1.default)("User not found");
         }
+        console.log(authorizeRole && !authorizeRole.includes(role));
         if (authorizeRole && !authorizeRole.includes(role)) {
             (0, trhowErrorHandller_1.default)("You have no access to this route");
         }
