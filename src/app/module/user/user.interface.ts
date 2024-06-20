@@ -14,5 +14,5 @@ export interface Userinterface {
 
 
 export interface Usermodels extends Model<Userinterface>{
-    isPasswordmatch(inputtextPassword:string,hashpassword:string):Promise<boolean>
+    isPasswordmatch(inputtextPassword:string|unknown,hashpassword:string|unknown):Promise<boolean>
 }

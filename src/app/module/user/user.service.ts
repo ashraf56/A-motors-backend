@@ -18,14 +18,20 @@ const createUserDB = async (payload: Userinterface) => {
 const LogInUserDB = async (payload: Userinterface) => {
 
 
-    const isUserexist = await User.findOne({ email: payload.email })
+    const users = await User.findOne({ email: payload.email })
 
-    if (!isUserexist) {
+    if (!users || !users?.password) {
         trhowErrorHandller('User not found')
     }
 
 
+    const passwordMatcher = await User.isPasswordmatch(payload.password, users?.password)
 
+    if (!passwordMatcher) {
+        trhowErrorHandller('password not match')
+    }
+
+return users
 
 }
 
