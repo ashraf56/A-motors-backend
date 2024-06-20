@@ -12,6 +12,13 @@ const createUservalidationSchema = zod_1.z.object({
         address: zod_1.z.string()
     })
 });
+const LoginvalidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string().email(),
+        password: zod_1.z.string({ invalid_type_error: 'password must be string' }).max(8),
+    })
+});
 exports.UserValidations = {
-    createUservalidationSchema
+    createUservalidationSchema,
+    LoginvalidationSchema
 };
