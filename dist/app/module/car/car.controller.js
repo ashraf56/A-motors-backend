@@ -41,8 +41,19 @@ const getSingleCarController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res)
         data: result
     });
 }));
+const deleteSingleCarController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield car_service_1.CarService.deleteAcarDB(id);
+    res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Car deleted  successfully",
+        data: result
+    });
+}));
 exports.CarContoller = {
     createCarController,
     getAllCarController,
-    getSingleCarController
+    getSingleCarController,
+    deleteSingleCarController
 };
