@@ -23,7 +23,7 @@ router.delete('/:id',
 router.put('/:id',
     authGuardValidator('admin'),
     validateRequest(CarValidatons.updateAcarValidationSchema),
-    CarContoller.deleteSingleCarController
+    CarContoller.updateSingleCarController
 )
 
 export const CarRoute = router
