@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarService = void 0;
+const mongoose_1 = require("mongoose");
 const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const car_model_1 = __importDefault(require("./car.model"));
 const CreateCarDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,9 +50,56 @@ const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateAcarDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = __rest(payload, []);
-    const result = yield car_model_1.default.findByIdAndUpdate({ _id: id }, data, { new: true });
-    return result;
+    const { features } = payload, data = __rest(payload, ["features"]);
+    const session = yield (0, mongoose_1.startSession)();
+    try {
+        session.startTransaction();
+        const updateinfo = yield car_model_1.default.findByIdAndUpdate({ _id: id }, data, { new: true, session });
+        if (!updateinfo) {
+            (0, trhowErrorHandller_1.default)('Failed to update');
+        }
+        if (features && (features === null || features === void 0 ? void 0 : features.length) > 0) {
+            //  find car features from DB
+            const dbFeatures = yield car_model_1.default.findById(id).select('features');
+            // storing current DB Features
+            const currentFeatures = (dbFeatures === null || dbFeatures === void 0 ? void 0 : dbFeatures.features) || [];
+            // add a new feture in the fetures array. filtering the payload feature where no currentFeatures exist.  
+            const addNewFeature = features.filter((f) => !currentFeatures.includes(f));
+            // remove  a new feture from fetures array. 
+            const removedFeature = currentFeatures.filter((cf) => features.includes(cf));
+            // feature remove  logic
+            const featureremove = yield car_model_1.default.findByIdAndUpdate({ _id: id }, { $pull: { features: { $in: removedFeature } } }, {
+                new: true,
+                session
+            });
+            if (!featureremove) {
+                (0, trhowErrorHandller_1.default)('Failed to update');
+            }
+            // feature add logic
+            const featuresupdate = yield car_model_1.default.findByIdAndUpdate({ _id: id }, {
+                $addToSet: {
+                    features: {
+                        $each: addNewFeature
+                    }
+                }
+            }, {
+                new: true,
+                session
+            });
+            if (!featuresupdate) {
+                (0, trhowErrorHandller_1.default)('Failed to update');
+            }
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        const result = yield car_model_1.default.findById(id);
+        return result;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        (0, trhowErrorHandller_1.default)('Failed to update');
+    }
 });
 exports.CarService = {
     CreateCarDB,

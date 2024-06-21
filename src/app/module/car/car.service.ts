@@ -1,3 +1,4 @@
+import { startSession } from "mongoose";
 import trhowErrorHandller from "../../utills/trhowErrorHandller";
 import { CarInterface } from "./car.interface";
 import Car from "./car.model";
@@ -40,14 +41,90 @@ const deleteAcarDB = async (id: string) => {
 }
 const updateAcarDB = async (id: string, payload: Partial<CarInterface>) => {
 
-    const { ...data } = payload
+    const { features, ...data } = payload
+    const session = await startSession()
 
-    const result = await Car.findByIdAndUpdate({ _id: id },
-        data
-        ,
-        { new: true })
+    try {
+        session.startTransaction()
+        const updateinfo = await Car.findByIdAndUpdate({ _id: id }, data, { new: true, session })
 
-    return result
+        if (!updateinfo) {
+            trhowErrorHandller('Failed to update')
+        }
+        if (features && features?.length > 0) {
+            //  find car features from DB
+            const dbFeatures = await Car.findById(id).select('features')
+            // storing current DB Features
+            const currentFeatures = dbFeatures?.features || []
+
+            // add a new feture in the fetures array. filtering the payload feature where no currentFeatures exist.  
+            const addNewFeature = features.filter((f) => !currentFeatures.includes(f))
+
+            // remove  a new feture from fetures array. 
+
+            const removedFeature = currentFeatures.filter((cf) => features.includes(cf))
+
+           
+
+            // feature remove  logic
+
+            const featureremove = await Car.findByIdAndUpdate({ _id: id },
+                { $pull: { features: { $in: removedFeature } } },
+                {
+                    new: true,
+                    session
+                }
+            )
+
+
+
+            if (!featureremove) {
+                trhowErrorHandller('Failed to update')
+            }
+
+            // feature add logic
+
+            const featuresupdate = await Car.findByIdAndUpdate({ _id: id },
+                {
+                    $addToSet: {
+                        features: {
+                            $each: addNewFeature
+                        }
+                    }
+                },
+                {
+                    new: true,
+                    session
+                }
+            )
+
+
+            if (!featuresupdate) {
+                trhowErrorHandller('Failed to update')
+            }
+
+
+
+
+        }
+
+
+
+        await session.commitTransaction()
+        await session.endSession()
+
+        const result = await Car.findById(id)
+        return result
+
+    } catch (error) {
+        await session.abortTransaction()
+        await session.endSession()
+        trhowErrorHandller('Failed to update')
+    }
+
+
+
+
 }
 
 export const CarService = {
