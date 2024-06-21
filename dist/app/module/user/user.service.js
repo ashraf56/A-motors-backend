@@ -40,7 +40,7 @@ const LogInUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () 
     };
     const accessToken = jsonwebtoken_1.default.sign(tokenplayload, config_1.default.JWT_sec_Token, { expiresIn: '365D' });
     return {
-        accessToken
+        accessToken, users
     };
 });
 exports.Userservices = {
