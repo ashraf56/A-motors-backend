@@ -32,17 +32,17 @@ const LogInUserDB = async (payload: Userinterface) => {
         trhowErrorHandller('password not match')
     }
 
-const tokenplayload = {
-    id:users?._id,
-    role:users?.role
-}
+    const tokenplayload = {
+        id: users?._id,
+        role: users?.role
+    }
 
-const accessToken = jwt.sign(tokenplayload,config.JWT_sec_Token as string,{expiresIn:'365D'})
+    const accessToken = jwt.sign(tokenplayload, config.JWT_sec_Token as string, { expiresIn: '365D' })
 
 
-return {
-    accessToken
-}
+    return {
+        accessToken
+    }
 
 }
 
