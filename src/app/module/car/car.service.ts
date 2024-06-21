@@ -24,14 +24,25 @@ const getALlCarInfoFromDB = async () => {
 }
 
 
-const getSIngleCArDB = async (id:string) => {
-    const result = await Car.findById({_id:id})
+const getSIngleCArDB = async (id: string) => {
+    const result = await Car.findById({ _id: id })
     return result
+}
+
+const deleteAcarDB = async (id: string) => {
+    const result = await Car.findByIdAndUpdate({ _id: id },
+        {
+            isDeleted: true
+        },
+        { new: true })
+
+        return result
 }
 
 export const CarService = {
     CreateCarDB,
     getALlCarInfoFromDB,
-    getSIngleCArDB
+    getSIngleCArDB,
+    deleteAcarDB
 }
 

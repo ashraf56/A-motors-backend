@@ -31,8 +31,15 @@ const getSIngleCArDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield car_model_1.default.findById({ _id: id });
     return result;
 });
+const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield car_model_1.default.findByIdAndUpdate({ _id: id }, {
+        isDeleted: true
+    }, { new: true });
+    return result;
+});
 exports.CarService = {
     CreateCarDB,
     getALlCarInfoFromDB,
-    getSIngleCArDB
+    getSIngleCArDB,
+    deleteAcarDB
 };
