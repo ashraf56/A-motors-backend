@@ -27,9 +27,10 @@ const createUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const LogInUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield user_model_1.default.findOne({ email: payload.email });
-    if (!users || !(users === null || users === void 0 ? void 0 : users.password)) {
+    if (!users) {
         (0, trhowErrorHandller_1.default)('User not found');
     }
+    console.log(users);
     const passwordMatcher = yield user_model_1.default.isPasswordmatch(payload.password, users === null || users === void 0 ? void 0 : users.password);
     if (!passwordMatcher) {
         (0, trhowErrorHandller_1.default)('password not match');

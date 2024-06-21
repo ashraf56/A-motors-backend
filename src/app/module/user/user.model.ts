@@ -17,7 +17,7 @@ const UserSchema = new Schema<Userinterface, Usermodels>({
         type: String,
         default: 'user'
     },
-    password: { type: String, required: true, select:0 },
+    password: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true }
 
@@ -36,7 +36,7 @@ UserSchema.post('save',  function (doc, next) {
 })
 
 UserSchema.statics.isPasswordmatch = async function (inputtextPassword, hashpassword) {
-    return bcrypt.compare(inputtextPassword, hashpassword)
+    return await bcrypt.compare(inputtextPassword, hashpassword)
 }
 
 

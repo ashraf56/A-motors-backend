@@ -29,7 +29,7 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         default: 'user'
     },
-    password: { type: String, required: true, select: 0 },
+    password: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true }
 }, {
@@ -47,7 +47,7 @@ UserSchema.post('save', function (doc, next) {
 });
 UserSchema.statics.isPasswordmatch = function (inputtextPassword, hashpassword) {
     return __awaiter(this, void 0, void 0, function* () {
-        return bcrypt_1.default.compare(inputtextPassword, hashpassword);
+        return yield bcrypt_1.default.compare(inputtextPassword, hashpassword);
     });
 };
 const User = (0, mongoose_1.model)('User', UserSchema);

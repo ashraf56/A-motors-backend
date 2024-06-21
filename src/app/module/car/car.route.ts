@@ -16,4 +16,9 @@ router.get('/', CarContoller.getAllCarController)
 
 router.get('/:id',CarContoller.getSingleCarController)
 
+router.delete('/:id',
+    authGuardValidator('admin'),
+    CarContoller.deleteSingleCarController
+)
+
 export const CarRoute = router
