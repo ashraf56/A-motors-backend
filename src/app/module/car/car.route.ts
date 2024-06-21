@@ -14,10 +14,15 @@ router.post('/create-car',
 
 router.get('/', CarContoller.getAllCarController)
 
-router.get('/:id',CarContoller.getSingleCarController)
+router.get('/:id', CarContoller.getSingleCarController)
 
 router.delete('/:id',
     authGuardValidator('admin'),
+    CarContoller.deleteSingleCarController
+)
+router.put('/:id',
+    authGuardValidator('admin'),
+    validateRequest(CarValidatons.updateAcarValidationSchema),
     CarContoller.deleteSingleCarController
 )
 

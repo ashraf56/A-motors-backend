@@ -14,4 +14,5 @@ router.post('/create-car', (0, authGuard_1.default)('admin'), (0, validateReques
 router.get('/', car_controller_1.CarContoller.getAllCarController);
 router.get('/:id', car_controller_1.CarContoller.getSingleCarController);
 router.delete('/:id', (0, authGuard_1.default)('admin'), car_controller_1.CarContoller.deleteSingleCarController);
+router.put('/:id', (0, authGuard_1.default)('admin'), (0, validateRequest_1.default)(car_validation_1.CarValidatons.updateAcarValidationSchema), car_controller_1.CarContoller.deleteSingleCarController);
 exports.CarRoute = router;
