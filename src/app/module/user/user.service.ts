@@ -24,7 +24,6 @@ const LogInUserDB = async (payload: Userinterface) => {
     if (!users) {
         trhowErrorHandller('User not found')
     }
-console.log(users);
 
 
     const passwordMatcher = await User.isPasswordmatch(payload.password, users?.password)
