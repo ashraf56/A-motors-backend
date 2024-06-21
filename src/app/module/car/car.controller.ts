@@ -58,10 +58,26 @@ const deleteSingleCarController = tryCatchWrapper(
         
     }
 )
+const updateSingleCarController = tryCatchWrapper(
+    async (req,res)=>{
+        const {id} = req.params;
+        const data = req.body;
+        const result = await CarService.updateAcarDB(id,data);
+ 
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Car updated  successfully",
+            data: result
+        })
+        
+    }
+)
 
 export const CarContoller = {
     createCarController,
     getAllCarController,
     getSingleCarController,
-    deleteSingleCarController
+    deleteSingleCarController,
+    updateSingleCarController
 }
