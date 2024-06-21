@@ -38,9 +38,9 @@ const LogInUserDB = (payload) => __awaiter(void 0, void 0, void 0, function* () 
         id: users === null || users === void 0 ? void 0 : users._id,
         role: users === null || users === void 0 ? void 0 : users.role
     };
-    const accessToken = jsonwebtoken_1.default.sign(tokenplayload, config_1.default.JWT_sec_Token, { expiresIn: '365D' });
+    const token = jsonwebtoken_1.default.sign(tokenplayload, config_1.default.JWT_sec_Token, { expiresIn: '365D' });
     return {
-        accessToken, users
+        token, users
     };
 });
 exports.Userservices = {

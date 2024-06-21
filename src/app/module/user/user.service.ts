@@ -37,11 +37,11 @@ const LogInUserDB = async (payload: Userinterface) => {
         role: users?.role
     }
 
-    const accessToken = jwt.sign(tokenplayload, config.JWT_sec_Token as string, { expiresIn: '365D' })
+    const token = jwt.sign(tokenplayload, config.JWT_sec_Token as string, { expiresIn: '365D' })
 
 
     return {
-        accessToken,users
+        token,users
     }
 
 }
