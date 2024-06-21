@@ -36,13 +36,25 @@ const deleteAcarDB = async (id: string) => {
         },
         { new: true })
 
-        return result
+    return result
+}
+const updateAcarDB = async (id: string, payload: Partial<CarInterface>) => {
+
+    const { ...data } = payload
+
+    const result = await Car.findByIdAndUpdate({ _id: id },
+        data
+        ,
+        { new: true })
+
+    return result
 }
 
 export const CarService = {
     CreateCarDB,
     getALlCarInfoFromDB,
     getSIngleCArDB,
-    deleteAcarDB
+    deleteAcarDB,
+    updateAcarDB
 }
 
