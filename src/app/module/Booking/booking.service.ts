@@ -27,8 +27,12 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
     return result
 }
 
-
+const getAllBookingsfromDB = async ()=>{
+    const result = await Booking.find()
+    return result
+}
 
 export const BookingServices = {
-    createBookingDB
+    createBookingDB,
+    getAllBookingsfromDB
 }

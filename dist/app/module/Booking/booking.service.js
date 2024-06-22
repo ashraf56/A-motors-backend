@@ -35,6 +35,11 @@ const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, f
     const result = yield booking_model_1.default.create(info);
     return result;
 });
+const getAllBookingsfromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.default.find();
+    return result;
+});
 exports.BookingServices = {
-    createBookingDB
+    createBookingDB,
+    getAllBookingsfromDB
 };
