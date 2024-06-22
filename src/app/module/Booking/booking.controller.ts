@@ -7,8 +7,20 @@ const createBoookingCOntroller = tryCatchWrapper(
         const result = await BookingServices.createBookingDB(req.body,req.user.id)
         res.status(200).json({
             success: true,
-            statusCode: 201,
+            statusCode: 200,
             message: "Car booked  successfully",
+            data: result
+        })
+    }
+)
+const getALLBoookingCOntroller = tryCatchWrapper(
+    async (req, res) => {
+     
+        const result = await BookingServices.getAllBookingsfromDB()
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "Bookings retrieved successfully",
             data: result
         })
     }
@@ -16,6 +28,9 @@ const createBoookingCOntroller = tryCatchWrapper(
 
 
 
+
+
 export const BookingController ={
-    createBoookingCOntroller
+    createBoookingCOntroller,
+    getALLBoookingCOntroller
 }
