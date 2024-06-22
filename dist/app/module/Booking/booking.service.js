@@ -36,7 +36,7 @@ const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, f
     return result;
 });
 const getAllBookingsfromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.default.find();
+    const result = yield booking_model_1.default.find().populate('user').populate('car');
     return result;
 });
 exports.BookingServices = {

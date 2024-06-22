@@ -28,7 +28,7 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
 }
 
 const getAllBookingsfromDB = async ()=>{
-    const result = await Booking.find()
+    const result = await Booking.find().populate('user').populate('car')
     return result
 }
 
