@@ -77,61 +77,10 @@ const getAllBookingsfromDB = async () => {
     return result
 }
 
-const updateBookingfromDB = async (payload: BookingInterface, bookingID:string ) => {
-
-  const bookingdata = await Booking.findById({_id:bookingID})
-   
-    // find user id from db
-
-    const session = await startSession()
-    try {
-        session.startTransaction()
-        const cars = bookingdata?.car?._id
-        const updateSatatus = await Car.findByIdAndUpdate({ _id: cars }, {
-            $set: {
-                status: 'available'
-            }
-
-        },
-            { upsert: true, new: true, session }
-        )
-
-        if (!updateSatatus) {
-            trhowErrorHandller('car return not success')
-
-        }
-         
-        const updateBookingtime = await Booking.findByIdAndUpdate({bookingID}, {
-            $set: {
-                endTime: payload.endTime
-            }
-        },{new:true, upsert:true , session})
-
-        if (!updateBookingtime) {
-            trhowErrorHandller('car return not success')
-
-        }
-
-        await session.commitTransaction()
-        await session.endSession()
-        const confirmBook = await Booking.findOne(payload.user).populate('user').populate('car')
-        return confirmBook
-
-    } catch (error) {
-        await session.abortTransaction()
-        await session.endSession()
-        trhowErrorHandller('Booking not success')
-
-
-    }
-
-
-
-}
 
 
 export const BookingServices = {
     createBookingDB,
     getAllBookingsfromDB,
-    updateBookingfromDB
+  
 }

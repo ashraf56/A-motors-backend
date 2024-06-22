@@ -26,4 +26,8 @@ router.put('/:id',
     CarContoller.updateSingleCarController
 )
 
+
+router.put('/return',authGuardValidator('admin'))
+
+
 export const CarRoute = router

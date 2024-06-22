@@ -29,8 +29,7 @@ const getALLBoookingCOntroller = tryCatchWrapper(
 
 
 
-
 export const BookingController ={
     createBoookingCOntroller,
-    getALLBoookingCOntroller
+    getALLBoookingCOntroller,
 }

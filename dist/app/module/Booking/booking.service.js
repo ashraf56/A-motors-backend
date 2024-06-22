@@ -66,43 +66,7 @@ const getAllBookingsfromDB = () => __awaiter(void 0, void 0, void 0, function* (
     const result = yield booking_model_1.default.find().populate('user').populate('car');
     return result;
 });
-const updateBookingfromDB = (payload, bookingID) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const bookingdata = yield booking_model_1.default.findById({ _id: bookingID });
-    // find user id from db
-    const session = yield (0, mongoose_1.startSession)();
-    try {
-        session.startTransaction();
-        const cars = (_a = bookingdata === null || bookingdata === void 0 ? void 0 : bookingdata.car) === null || _a === void 0 ? void 0 : _a._id;
-        const updateSatatus = yield car_model_1.default.findByIdAndUpdate({ _id: cars }, {
-            $set: {
-                status: 'available'
-            }
-        }, { upsert: true, new: true, session });
-        if (!updateSatatus) {
-            (0, trhowErrorHandller_1.default)('car return not success');
-        }
-        const updateBookingtime = yield booking_model_1.default.findByIdAndUpdate({ bookingID }, {
-            $set: {
-                endTime: payload.endTime
-            }
-        }, { new: true, upsert: true, session });
-        if (!updateBookingtime) {
-            (0, trhowErrorHandller_1.default)('car return not success');
-        }
-        yield session.commitTransaction();
-        yield session.endSession();
-        const confirmBook = yield booking_model_1.default.findOne(payload.user).populate('user').populate('car');
-        return confirmBook;
-    }
-    catch (error) {
-        yield session.abortTransaction();
-        yield session.endSession();
-        (0, trhowErrorHandller_1.default)('Booking not success');
-    }
-});
 exports.BookingServices = {
     createBookingDB,
     getAllBookingsfromDB,
-    updateBookingfromDB
 };

@@ -32,5 +32,5 @@ const getALLBoookingCOntroller = (0, tryCatchWrapper_1.tryCatchWrapper)((req, re
 }));
 exports.BookingController = {
     createBoookingCOntroller,
-    getALLBoookingCOntroller
+    getALLBoookingCOntroller,
 };
