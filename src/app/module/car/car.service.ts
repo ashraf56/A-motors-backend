@@ -2,6 +2,7 @@ import { startSession } from "mongoose";
 import trhowErrorHandller from "../../utills/trhowErrorHandller";
 import { CarInterface } from "./car.interface";
 import Car from "./car.model";
+import Booking from "../Booking/booking.model";
 
 
 
@@ -39,6 +40,62 @@ const deleteAcarDB = async (id: string) => {
 
     return result
 }
+
+
+const returnCarDB = async (bookingId: string, endTime: string) => {
+
+
+    const car = await Booking.findById(bookingId).select('car').populate('car')
+
+
+
+    const session = await startSession()
+    try {
+        session.startTransaction()
+        const Bookingdata = await Booking.findByIdAndUpdate({ _id: bookingId }, {
+            $set: { endTime: endTime }
+        }, {
+            upsert: true, new: true, session
+        })
+
+        if (!Bookingdata) {
+            trhowErrorHandller('Failed to return')
+
+        }
+        const carId = car?.car._id.toString()
+
+
+        const updateCarstatus = await Car.findByIdAndUpdate({ _id: carId }, {
+            $set: {
+                status: 'available'
+            }
+        }, {
+            new: true, session
+        })
+
+        if (!updateCarstatus) {
+            trhowErrorHandller('Failed to return')
+
+        }
+
+
+        await session.commitTransaction()
+        await session.endSession()
+        const ReturnedCar = await Booking.findById(bookingId).populate('user').populate('car')
+        return ReturnedCar
+
+    } catch (error: string | unknown) {
+        await session.abortTransaction()
+        await session.endSession()
+        trhowErrorHandller(error)
+    }
+
+}
+
+
+
+
+
 const updateAcarDB = async (id: string, payload: Partial<CarInterface>) => {
 
     const { features, ...data } = payload
@@ -64,7 +121,7 @@ const updateAcarDB = async (id: string, payload: Partial<CarInterface>) => {
 
             const removedFeature = currentFeatures.filter((cf) => features.includes(cf))
 
-           
+
 
             // feature remove  logic
 
@@ -131,12 +188,12 @@ const updateAcarDB = async (id: string, payload: Partial<CarInterface>) => {
 
 
 
-
 export const CarService = {
     CreateCarDB,
     getALlCarInfoFromDB,
     getSIngleCArDB,
     deleteAcarDB,
-    updateAcarDB
+    updateAcarDB,
+    returnCarDB
 }
 

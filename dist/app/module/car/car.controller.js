@@ -63,9 +63,8 @@ const updateSingleCarController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, r
     });
 }));
 const reTurnCarController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const data = req.body;
-    const result = yield car_service_1.CarService.updateAcarDB(id, data);
+    const { bookingId, endTime } = req.body;
+    const result = yield car_service_1.CarService.returnCarDB(bookingId, endTime);
     res.status(200).json({
         success: true,
         statusCode: 200,

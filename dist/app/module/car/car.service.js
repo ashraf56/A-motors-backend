@@ -27,6 +27,7 @@ exports.CarService = void 0;
 const mongoose_1 = require("mongoose");
 const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const car_model_1 = __importDefault(require("./car.model"));
+const booking_model_1 = __importDefault(require("../Booking/booking.model"));
 const CreateCarDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existCar = yield car_model_1.default.findOne({ name: payload.name });
     if (existCar) {
@@ -48,6 +49,41 @@ const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
         isDeleted: true
     }, { new: true });
     return result;
+});
+const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, function* () {
+    const car = yield booking_model_1.default.findById(bookingId).select('car').populate('car');
+    const session = yield (0, mongoose_1.startSession)();
+    try {
+        session.startTransaction();
+        const Bookingdata = yield booking_model_1.default.findByIdAndUpdate({ _id: bookingId }, {
+            $set: { endTime: endTime }
+        }, {
+            upsert: true, new: true, session
+        });
+        if (!Bookingdata) {
+            (0, trhowErrorHandller_1.default)('Failed to return');
+        }
+        const carId = car === null || car === void 0 ? void 0 : car.car._id.toString();
+        const updateCarstatus = yield car_model_1.default.findByIdAndUpdate({ _id: carId }, {
+            $set: {
+                status: 'available'
+            }
+        }, {
+            new: true, session
+        });
+        if (!updateCarstatus) {
+            (0, trhowErrorHandller_1.default)('Failed to return');
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        const ReturnedCar = yield booking_model_1.default.findById(bookingId).populate('user').populate('car');
+        return ReturnedCar;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        (0, trhowErrorHandller_1.default)(error);
+    }
 });
 const updateAcarDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { features } = payload, data = __rest(payload, ["features"]);
@@ -106,5 +142,6 @@ exports.CarService = {
     getALlCarInfoFromDB,
     getSIngleCArDB,
     deleteAcarDB,
-    updateAcarDB
+    updateAcarDB,
+    returnCarDB
 };

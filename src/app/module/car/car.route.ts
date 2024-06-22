@@ -7,6 +7,8 @@ import { CarValidatons } from "./car.validation";
 
 const router = Router()
 
+router.put('/return',authGuardValidator('admin'), CarContoller.reTurnCarController)
+
 router.post('/create-car',
     authGuardValidator('admin'),
     validateRequest(CarValidatons.createAcarValidationSchema),
@@ -20,6 +22,8 @@ router.delete('/:id',
     authGuardValidator('admin'),
     CarContoller.deleteSingleCarController
 )
+
+
 router.put('/:id',
     authGuardValidator('admin'),
     validateRequest(CarValidatons.updateAcarValidationSchema),
@@ -27,7 +31,7 @@ router.put('/:id',
 )
 
 
-router.put('/return',authGuardValidator('admin'))
+
 
 
 export const CarRoute = router
