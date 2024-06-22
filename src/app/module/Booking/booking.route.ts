@@ -9,5 +9,7 @@ const router = Router()
 
 router.post('/book-car', authGuardValidator('user'), validateRequest(BookingValidations.CreateBookingvzodschema), BookingController.createBoookingCOntroller)
 
+router.get('/', authGuardValidator('admin'), BookingController.getALLBoookingCOntroller)
+
 
 export const BookingRoute = router

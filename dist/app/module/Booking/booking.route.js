@@ -11,4 +11,5 @@ const booking_validaton_1 = require("./booking.validaton");
 const authGuard_1 = __importDefault(require("../../middleware/authGuard"));
 const router = (0, express_1.Router)();
 router.post('/book-car', (0, authGuard_1.default)('user'), (0, validateRequest_1.default)(booking_validaton_1.BookingValidations.CreateBookingvzodschema), booking_controller_1.BookingController.createBoookingCOntroller);
+router.get('/', (0, authGuard_1.default)('admin'), booking_controller_1.BookingController.getALLBoookingCOntroller);
 exports.BookingRoute = router;
