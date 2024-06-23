@@ -46,8 +46,8 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         if (carid?.status === 'unavailable') {
             trhowErrorHandller('Booking not success')
         }
-
-
+         
+       
 
         const createABook = await Booking.create([newdata], { session })
 
@@ -75,12 +75,14 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         await session.endSession()
         const Bookdata = await Booking.findById(createABook[0]?._id).populate('user').populate('car')
 
+        
+
         return Bookdata
 
     } catch (error) {
         await session.abortTransaction()
         await session.endSession()
-        trhowErrorHandller('error')
+        trhowErrorHandller('Booking not success')
 
 
     }
@@ -96,6 +98,9 @@ const getAllBookingsfromDB = async (carId: string, date: string) => {
         query = { $and: [{ car: carId }, { date: date }] }
     }
     const result = await Booking.find(query).populate('user').populate('car')
+    if (result.length === 0) {
+        trhowErrorHandller('no data found')
+    }
     return result
 }
 

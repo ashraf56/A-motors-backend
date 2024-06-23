@@ -64,7 +64,7 @@ const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, f
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        (0, trhowErrorHandller_1.default)('error');
+        (0, trhowErrorHandller_1.default)('Booking not success');
     }
 });
 const getAllBookingsfromDB = (carId, date) => __awaiter(void 0, void 0, void 0, function* () {
@@ -73,6 +73,9 @@ const getAllBookingsfromDB = (carId, date) => __awaiter(void 0, void 0, void 0, 
         query = { $and: [{ car: carId }, { date: date }] };
     }
     const result = yield booking_model_1.default.find(query).populate('user').populate('car');
+    if (result.length === 0) {
+        (0, trhowErrorHandller_1.default)('no data found');
+    }
     return result;
 });
 exports.BookingServices = {
