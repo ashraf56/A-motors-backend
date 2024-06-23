@@ -19,27 +19,27 @@ const booking_model_1 = __importDefault(require("./booking.model"));
 const user_model_1 = __importDefault(require("../user/user.model"));
 const mongoose_1 = require("mongoose");
 const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const newdata = {};
     const carid = yield car_model_1.default.findById(payload.car);
     if (!carid) {
         (0, trhowErrorHandller_1.default)('car not found');
     }
     // find user id from db
     const user = yield user_model_1.default.findById(userID);
+    newdata.user = user === null || user === void 0 ? void 0 : user._id;
+    newdata.car = carid === null || carid === void 0 ? void 0 : carid._id;
+    newdata.startTime = payload.startTime;
+    newdata.totalCost = payload.totalCost;
+    newdata.endTime = payload.endTime;
+    newdata.date = payload.date;
     const session = yield (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
         if ((carid === null || carid === void 0 ? void 0 : carid.status) === 'unavailable') {
             (0, trhowErrorHandller_1.default)('Booking not success');
         }
-        const info = {
-            date: payload.date,
-            user: user,
-            car: carid,
-            startTime: payload.startTime,
-            endTime: payload.endTime,
-            totalCost: payload.totalCost,
-        };
-        const createABook = yield booking_model_1.default.create([info], { session });
+        const createABook = yield booking_model_1.default.create([newdata], { session });
         if (!createABook) {
             (0, trhowErrorHandller_1.default)('Booking not success');
         }
@@ -53,13 +53,13 @@ const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, f
         }
         yield session.commitTransaction();
         yield session.endSession();
-        const confirmBook = yield booking_model_1.default.findOne(payload.user).populate('user').populate('car');
-        return confirmBook;
+        const Bookdata = yield booking_model_1.default.findById((_a = createABook[0]) === null || _a === void 0 ? void 0 : _a._id).populate('user').populate('car');
+        return Bookdata;
     }
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        (0, trhowErrorHandller_1.default)('Booking not success');
+        (0, trhowErrorHandller_1.default)('error');
     }
 });
 const getAllBookingsfromDB = () => __awaiter(void 0, void 0, void 0, function* () {

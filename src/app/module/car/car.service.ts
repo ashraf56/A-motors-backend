@@ -44,20 +44,21 @@ const deleteAcarDB = async (id: string) => {
 
 const returnCarDB = async (bookingId: string, endTime: string) => {
 
-    // geting car info from Booking model
-    const car = await Booking.findById(bookingId).populate('car')
-
+    const bookings = await Booking.findById(bookingId)
+    if ( bookings?.endTime !== null) {
+        trhowErrorHandller(' Faild to return');
+    }
     const session = await startSession()
     try {
         session.startTransaction()
-
-        const carId = car?.car._id.toString()
+        
+        const carId = bookings?.car._id.toString()
         const carsinfo = await Car.findById(carId)
 
-        const [startHour, startMin] = car?.startTime.split(":").map(Number) as number[]
+        const [startHour, startMin] = bookings?.startTime.split(":").map(Number) as number[]
         const [currentEndHour, endmin] = endTime.split(":").map(Number) as number[]
         const currentPricePerHour = carsinfo?.pricePerHour as number
-        const totalCurrentcost = car?.totalCost as number
+        const totalCurrentcost = bookings?.totalCost as number
 
         // converting current  startTime an endtime into hours
         const totalStartTime = startHour + startMin / 60

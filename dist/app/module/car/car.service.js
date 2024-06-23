@@ -51,17 +51,19 @@ const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, function* () {
-    // geting car info from Booking model
-    const car = yield booking_model_1.default.findById(bookingId).populate('car');
+    const bookings = yield booking_model_1.default.findById(bookingId);
+    if ((bookings === null || bookings === void 0 ? void 0 : bookings.endTime) !== null) {
+        (0, trhowErrorHandller_1.default)(' Faild to return');
+    }
     const session = yield (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
-        const carId = car === null || car === void 0 ? void 0 : car.car._id.toString();
+        const carId = bookings === null || bookings === void 0 ? void 0 : bookings.car._id.toString();
         const carsinfo = yield car_model_1.default.findById(carId);
-        const [startHour, startMin] = car === null || car === void 0 ? void 0 : car.startTime.split(":").map(Number);
+        const [startHour, startMin] = bookings === null || bookings === void 0 ? void 0 : bookings.startTime.split(":").map(Number);
         const [currentEndHour, endmin] = endTime.split(":").map(Number);
         const currentPricePerHour = carsinfo === null || carsinfo === void 0 ? void 0 : carsinfo.pricePerHour;
-        const totalCurrentcost = car === null || car === void 0 ? void 0 : car.totalCost;
+        const totalCurrentcost = bookings === null || bookings === void 0 ? void 0 : bookings.totalCost;
         // converting current  startTime an endtime into hours
         const totalStartTime = startHour + startMin / 60;
         const totalEndTime = currentEndHour + endmin / 60;

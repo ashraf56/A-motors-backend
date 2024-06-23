@@ -7,7 +7,9 @@ import { startSession } from "mongoose";
 
 const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
+     const newdata :Partial<BookingInterface> = {}
 
+    
     const carid = await Car.findById(payload.car)
 
     if (!carid) {
@@ -17,6 +19,12 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
     // find user id from db
     const user = await User.findById(userID)
 
+    newdata.user = user?._id 
+    newdata.car = carid?._id 
+    newdata.startTime= payload.startTime
+    newdata.totalCost= payload.totalCost
+    newdata.endTime =payload.endTime
+    newdata.date  = payload.date
     const session = await startSession()
     try {
         session.startTransaction()
@@ -26,15 +34,8 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         }
 
 
-        const info = {
-            date: payload.date,
-            user: user,
-            car: carid,
-            startTime: payload.startTime,
-            endTime: payload.endTime,
-            totalCost: payload.totalCost,
-        }
-        const createABook = await Booking.create([info], { session })
+         
+        const createABook = await Booking.create( [newdata], { session })
 
         if (!createABook) {
             trhowErrorHandller('Booking not success')
@@ -58,13 +59,14 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
         await session.commitTransaction()
         await session.endSession()
-        const confirmBook = await Booking.findOne(payload.user).populate('user').populate('car')
-        return confirmBook
+       const Bookdata = await Booking.findById(createABook[0]?._id).populate('user').populate('car')
+        
+        return Bookdata
 
     } catch (error) {
         await session.abortTransaction()
         await session.endSession()
-        trhowErrorHandller('Booking not success')
+        trhowErrorHandller('error')
 
 
     }
