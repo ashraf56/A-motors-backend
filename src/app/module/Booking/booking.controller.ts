@@ -1,6 +1,25 @@
 import { tryCatchWrapper } from "../../utills/tryCatchWrapper"
 import { BookingServices } from "./booking.service"
 
+
+const getmyBoookingController = tryCatchWrapper(
+    async (req, res) => {
+
+        const result = await BookingServices.createBookingDB(req.user.id)
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: "My Bookings retrieved successfully",
+            data: result
+        })
+    }
+)
+
+
+
+
+
+
 const createBoookingCOntroller = tryCatchWrapper(
     async (req, res) => {
 
