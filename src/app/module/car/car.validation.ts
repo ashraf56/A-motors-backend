@@ -29,7 +29,8 @@ const updateAcarValidationSchema = z.object({
 
 
 
+
 export const CarValidatons = {
     createAcarValidationSchema,
-    updateAcarValidationSchema
+    updateAcarValidationSchema,
 }

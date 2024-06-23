@@ -15,5 +15,5 @@ const CreateBookingvzodschema = zod_1.z.object({
     })
 });
 exports.BookingValidations = {
-    CreateBookingvzodschema
+    CreateBookingvzodschema,
 };

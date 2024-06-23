@@ -51,6 +51,7 @@ const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, function* () {
+    // geting car info from Booking model
     const car = yield booking_model_1.default.findById(bookingId).populate('car');
     const session = yield (0, mongoose_1.startSession)();
     try {
@@ -68,17 +69,12 @@ const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, fu
         const rideCost = currentPricePerHour * totalHours;
         const FinalCost = rideCost + totalCurrentcost;
         const totalFinalcost = Math.ceil(FinalCost);
-        const Bookingdata = yield booking_model_1.default.findByIdAndUpdate({ _id: bookingId }, {
-            $set: {
-                endTime: endTime,
-                totalCost: totalFinalcost
-            }
-        }, {
-            upsert: true, new: true, session
-        });
+        // updating booking info .
+        const Bookingdata = yield booking_model_1.default.findByIdAndUpdate({ _id: bookingId }, { $set: { endTime: endTime, totalCost: totalFinalcost } }, { upsert: true, new: true, session });
         if (!Bookingdata) {
             (0, trhowErrorHandller_1.default)('Failed to return');
         }
+        // Updating the car status
         const updateCarstatus = yield car_model_1.default.findByIdAndUpdate({ _id: carId }, {
             $set: {
                 status: 'available',

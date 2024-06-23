@@ -29,5 +29,5 @@ const updateAcarValidationSchema = zod_1.z.object({
 });
 exports.CarValidatons = {
     createAcarValidationSchema,
-    updateAcarValidationSchema
+    updateAcarValidationSchema,
 };

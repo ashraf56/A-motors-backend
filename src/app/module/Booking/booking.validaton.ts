@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-const CreateBookingvzodschema =z.object({
-    body:z.object({
-        date:z.string(),
-        user:z.string().optional(),
-        car:z.string(),
-        startTime:z.string({
-            invalid_type_error:"startTime must be String"
+const CreateBookingvzodschema = z.object({
+    body: z.object({
+        date: z.string(),
+        user: z.string().optional(),
+        car: z.string(),
+        startTime: z.string({
+            invalid_type_error: "startTime must be String"
         }),
-        endTime:z.string().optional(),
-        totalCost:z.number().optional()
+        endTime: z.string().optional(),
+        totalCost: z.number().optional()
 
     })
 })
@@ -17,5 +17,5 @@ const CreateBookingvzodschema =z.object({
 
 
 export const BookingValidations = {
-    CreateBookingvzodschema
+    CreateBookingvzodschema,
 }
