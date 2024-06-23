@@ -45,13 +45,13 @@ const deleteAcarDB = async (id: string) => {
 const returnCarDB = async (bookingId: string, endTime: string) => {
 
     const bookings = await Booking.findById(bookingId)
-    if ( bookings?.endTime !== null) {
+    if (bookings?.endTime !== null) {
         trhowErrorHandller(' Faild to return');
     }
     const session = await startSession()
     try {
         session.startTransaction()
-        
+
         const carId = bookings?.car._id.toString()
         const carsinfo = await Car.findById(carId)
 

@@ -20,13 +20,13 @@ const LoginController = tryCatchWrapper(
     async (req, res) => {
 
         const result = await Userservices.LogInUserDB(req.body)
-        const { token , users} = result
+        const { token, users } = result
         res.status(200).json({
             success: true,
             statusCode: 201,
             message: "User Logged in successfully",
             data: {
-               users, token
+                users, token
             }
         })
     }

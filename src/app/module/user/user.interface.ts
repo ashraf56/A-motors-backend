@@ -13,6 +13,6 @@ export interface Userinterface {
 }
 export type UserRoletypes = keyof typeof UserRoles
 
-export interface Usermodels extends Model<Userinterface>{
-    isPasswordmatch(inputtextPassword:string|unknown,hashpassword:string|unknown):Promise<boolean>
+export interface Usermodels extends Model<Userinterface> {
+    isPasswordmatch(inputtextPassword: string | unknown, hashpassword: string | unknown): Promise<boolean>
 }

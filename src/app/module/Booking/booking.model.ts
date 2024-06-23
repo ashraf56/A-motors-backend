@@ -14,9 +14,9 @@ const BookingSchema = new Schema<BookingInterface>({
         required: true
     },
     startTime: {
-        type: String,  required: true
+        type: String, required: true
     },
-    endTime: { type: String  ,default:null},
+    endTime: { type: String, default: null },
     totalCost: { type: Number, default: 0 }
 
 }, {

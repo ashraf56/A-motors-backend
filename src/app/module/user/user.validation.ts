@@ -15,7 +15,7 @@ const createUservalidationSchema = z.object({
 
 const LoginvalidationSchema = z.object({
     body: z.object({
-       
+
         email: z.string().email(),
         password: z.string({ invalid_type_error: 'password must be string' }).max(8),
     })

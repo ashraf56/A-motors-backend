@@ -41,7 +41,7 @@ const LogInUserDB = async (payload: Userinterface) => {
 
 
     return {
-        token,users
+        token, users
     }
 
 }

@@ -7,12 +7,12 @@ import User from "../user/user.model";
 import { startSession } from "mongoose";
 
 
-const getMybookingsDB = async (id:string)=>{
+const getMybookingsDB = async (id: string) => {
 
-const result = await  Booking.find({user:id}).populate('user').populate('car')
+    const result = await Booking.find({ user: id }).populate('user').populate('car')
 
 
-return result
+    return result
 }
 
 
@@ -46,8 +46,8 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         if (carid?.status === 'unavailable') {
             trhowErrorHandller('Booking not success')
         }
-         
-       
+
+
 
         const createABook = await Booking.create([newdata], { session })
 
@@ -75,7 +75,7 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         await session.endSession()
         const Bookdata = await Booking.findById(createABook[0]?._id).populate('user').populate('car')
 
-        
+
 
         return Bookdata
 

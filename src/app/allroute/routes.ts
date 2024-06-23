@@ -8,22 +8,22 @@ const router = Router();
 const allroute = [
     {
         path: '/auth',
-        route:Userroute
-        
+        route: Userroute
+
     },
     {
         path: '/cars',
-        route:CarRoute
-        
+        route: CarRoute
+
     },
     {
         path: '/bookings',
-        route:BookingRoute
-        
+        route: BookingRoute
+
     }
 ]
 
 
-allroute.forEach(r => router.use(r.path,r.route))
+allroute.forEach(r => router.use(r.path, r.route))
 
 export default router;
