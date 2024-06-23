@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const trhowErrorHandller_1 = __importDefault(require("../../utills/trhowErrorHandller"));
 const car_model_1 = __importDefault(require("../car/car.model"));
 const booking_model_1 = __importDefault(require("./booking.model"));
@@ -62,8 +63,12 @@ const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, f
         (0, trhowErrorHandller_1.default)('error');
     }
 });
-const getAllBookingsfromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.default.find().populate('user').populate('car');
+const getAllBookingsfromDB = (carId, date) => __awaiter(void 0, void 0, void 0, function* () {
+    let query = {};
+    if (carId && date) {
+        query = { $and: [{ car: carId }, { date: date }] };
+    }
+    const result = yield booking_model_1.default.find(query).populate('user').populate('car');
     return result;
 });
 exports.BookingServices = {

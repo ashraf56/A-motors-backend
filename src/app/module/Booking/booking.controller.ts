@@ -3,8 +3,8 @@ import { BookingServices } from "./booking.service"
 
 const createBoookingCOntroller = tryCatchWrapper(
     async (req, res) => {
-     
-        const result = await BookingServices.createBookingDB(req.body,req.user.id)
+
+        const result = await BookingServices.createBookingDB(req.body, req.user.id)
         res.status(200).json({
             success: true,
             statusCode: 200,
@@ -15,8 +15,9 @@ const createBoookingCOntroller = tryCatchWrapper(
 )
 const getALLBoookingCOntroller = tryCatchWrapper(
     async (req, res) => {
-     
-        const result = await BookingServices.getAllBookingsfromDB()
+        const carId = req.query.carId as string
+        const date = req.query.date as string
+        const result = await BookingServices.getAllBookingsfromDB(carId, date)
         res.status(200).json({
             success: true,
             statusCode: 200,
@@ -29,7 +30,7 @@ const getALLBoookingCOntroller = tryCatchWrapper(
 
 
 
-export const BookingController ={
+export const BookingController = {
     createBoookingCOntroller,
     getALLBoookingCOntroller,
 }

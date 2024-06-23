@@ -22,7 +22,9 @@ const createBoookingCOntroller = (0, tryCatchWrapper_1.tryCatchWrapper)((req, re
     });
 }));
 const getALLBoookingCOntroller = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_service_1.BookingServices.getAllBookingsfromDB();
+    const carId = req.query.carId;
+    const date = req.query.date;
+    const result = yield booking_service_1.BookingServices.getAllBookingsfromDB(carId, date);
     res.status(200).json({
         success: true,
         statusCode: 200,

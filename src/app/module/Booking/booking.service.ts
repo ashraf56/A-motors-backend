@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import trhowErrorHandller from "../../utills/trhowErrorHandller";
 import Car from "../car/car.model";
 import { BookingInterface } from "./booking.interface";
@@ -7,9 +8,9 @@ import { startSession } from "mongoose";
 
 const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
-     const newdata :Partial<BookingInterface> = {}
+    const newdata: Partial<BookingInterface> = {}
 
-    
+
     const carid = await Car.findById(payload.car)
 
     if (!carid) {
@@ -19,12 +20,12 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
     // find user id from db
     const user = await User.findById(userID)
 
-    newdata.user = user?._id 
-    newdata.car = carid?._id 
-    newdata.startTime= payload.startTime
-    newdata.totalCost= payload.totalCost
-    newdata.endTime =payload.endTime
-    newdata.date  = payload.date
+    newdata.user = user?._id
+    newdata.car = carid?._id
+    newdata.startTime = payload.startTime
+    newdata.totalCost = payload.totalCost
+    newdata.endTime = payload.endTime
+    newdata.date = payload.date
     const session = await startSession()
     try {
         session.startTransaction()
@@ -34,13 +35,13 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
         }
 
 
-         
-        const createABook = await Booking.create( [newdata], { session })
+
+        const createABook = await Booking.create([newdata], { session })
 
         if (!createABook) {
             trhowErrorHandller('Booking not success')
         }
-          
+
 
         const updateSatatus = await Car.findByIdAndUpdate({ _id: payload.car }, {
             $set: {
@@ -59,8 +60,8 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
         await session.commitTransaction()
         await session.endSession()
-       const Bookdata = await Booking.findById(createABook[0]?._id).populate('user').populate('car')
-        
+        const Bookdata = await Booking.findById(createABook[0]?._id).populate('user').populate('car')
+
         return Bookdata
 
     } catch (error) {
@@ -74,8 +75,14 @@ const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
 }
 
-const getAllBookingsfromDB = async () => {
-    const result = await Booking.find().populate('user').populate('car')
+const getAllBookingsfromDB = async (carId: string, date: string) => {
+
+    let query: any = {}
+
+    if (carId && date) {
+        query = { $and: [{ car: carId }, { date: date }] }
+    }
+    const result = await Booking.find(query).populate('user').populate('car')
     return result
 }
 
@@ -84,5 +91,5 @@ const getAllBookingsfromDB = async () => {
 export const BookingServices = {
     createBookingDB,
     getAllBookingsfromDB,
-  
+
 }
