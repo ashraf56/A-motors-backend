@@ -9,7 +9,9 @@ import { startSession } from "mongoose";
 
 const getMybookingsDB = async (id:string)=>{
 
-const result = await  Booking.findById(id)
+const result = await  Booking.find({user:id}).populate('user').populate('car')
+
+
 return result
 }
 

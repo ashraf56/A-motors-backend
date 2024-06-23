@@ -20,7 +20,7 @@ const booking_model_1 = __importDefault(require("./booking.model"));
 const user_model_1 = __importDefault(require("../user/user.model"));
 const mongoose_1 = require("mongoose");
 const getMybookingsDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.default.findById(id);
+    const result = yield booking_model_1.default.find({ user: id }).populate('user').populate('car');
     return result;
 });
 const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, function* () {

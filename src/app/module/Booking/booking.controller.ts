@@ -4,7 +4,6 @@ import { BookingServices } from "./booking.service"
 
 const getmyBoookingController = tryCatchWrapper(
     async (req, res) => {
-
         const result = await BookingServices.getMybookingsDB(req.user.id)
         res.status(200).json({
             success: true,

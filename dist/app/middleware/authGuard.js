@@ -33,7 +33,7 @@ const authGuardValidator = (...authorizeRole) => {
         const { id, role } = decoded;
         const user = yield user_model_1.default.findById({ _id: id });
         if (!user) {
-            (0, trhowErrorHandller_1.default)("User not found");
+            (0, trhowErrorHandller_1.default)("You have no access to this route");
         }
         // set role based authorization
         if (authorizeRole && !authorizeRole.includes(role)) {
