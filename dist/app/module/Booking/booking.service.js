@@ -19,6 +19,10 @@ const car_model_1 = __importDefault(require("../car/car.model"));
 const booking_model_1 = __importDefault(require("./booking.model"));
 const user_model_1 = __importDefault(require("../user/user.model"));
 const mongoose_1 = require("mongoose");
+const getMybookingsDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.default.findById(id);
+    return result;
+});
 const createBookingDB = (payload, userID) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const newdata = {};
@@ -74,4 +78,5 @@ const getAllBookingsfromDB = (carId, date) => __awaiter(void 0, void 0, void 0, 
 exports.BookingServices = {
     createBookingDB,
     getAllBookingsfromDB,
+    getMybookingsDB
 };

@@ -6,6 +6,17 @@ import Booking from "./booking.model";
 import User from "../user/user.model";
 import { startSession } from "mongoose";
 
+
+const getMybookingsDB = async (id:string)=>{
+
+const result = await  Booking.findById(id)
+return result
+}
+
+
+
+
+
 const createBookingDB = async (payload: BookingInterface, userID: string) => {
 
     const newdata: Partial<BookingInterface> = {}
@@ -91,5 +102,6 @@ const getAllBookingsfromDB = async (carId: string, date: string) => {
 export const BookingServices = {
     createBookingDB,
     getAllBookingsfromDB,
+    getMybookingsDB
 
 }

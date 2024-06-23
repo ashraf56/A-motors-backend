@@ -13,7 +13,7 @@ exports.BookingController = void 0;
 const tryCatchWrapper_1 = require("../../utills/tryCatchWrapper");
 const booking_service_1 = require("./booking.service");
 const getmyBoookingController = (0, tryCatchWrapper_1.tryCatchWrapper)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_service_1.BookingServices.createBookingDB(req.user.id);
+    const result = yield booking_service_1.BookingServices.getMybookingsDB(req.user.id);
     res.status(200).json({
         success: true,
         statusCode: 200,
@@ -44,4 +44,5 @@ const getALLBoookingCOntroller = (0, tryCatchWrapper_1.tryCatchWrapper)((req, re
 exports.BookingController = {
     createBoookingCOntroller,
     getALLBoookingCOntroller,
+    getmyBoookingController
 };
