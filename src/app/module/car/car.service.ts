@@ -45,16 +45,42 @@ const deleteAcarDB = async (id: string) => {
 const returnCarDB = async (bookingId: string, endTime: string) => {
 
 
-    const car = await Booking.findById(bookingId).select('car').populate('car')
+    const car = await Booking.findById(bookingId).populate('car')
 
 
 
     const session = await startSession()
     try {
         session.startTransaction()
-        const Bookingdata = await Booking.findByIdAndUpdate({ _id: bookingId }, {
-            $set: { endTime: endTime }
-        }, {
+
+        const carId = car?.car._id.toString()
+        const carsinfo = await Car.findById(carId)
+
+
+        const [startHour, startMin] = car?.startTime.split(":").map(Number) as number[]
+        const [currentEndHour, endmin] = endTime.split(":").map(Number) as number[]
+        const currentPricePerHour = carsinfo?.pricePerHour as number
+        const totalCurrentcost = car?.totalCost as number
+
+      // converting current  startTime an endtime into hours
+        const totalStartTime = startHour + startMin / 60
+        const totalEndTime = currentEndHour + endmin / 60
+
+        const totalHours = totalEndTime - totalStartTime     
+        const rideCost = currentPricePerHour * totalHours
+        const FinalCost = rideCost + totalCurrentcost
+
+        const totalFinalcost = Math.ceil(FinalCost)
+
+
+        const Bookingdata = await Booking.findByIdAndUpdate({ _id: bookingId },
+            {
+                $set:
+                {
+                    endTime: endTime,
+                    totalCost: totalFinalcost
+                }
+            }, {
             upsert: true, new: true, session
         })
 
@@ -62,12 +88,11 @@ const returnCarDB = async (bookingId: string, endTime: string) => {
             trhowErrorHandller('Failed to return')
 
         }
-        const carId = car?.car._id.toString()
-
 
         const updateCarstatus = await Car.findByIdAndUpdate({ _id: carId }, {
             $set: {
-                status: 'available'
+                status: 'available',
+
             }
         }, {
             new: true, session
@@ -79,15 +104,16 @@ const returnCarDB = async (bookingId: string, endTime: string) => {
         }
 
 
+
         await session.commitTransaction()
         await session.endSession()
-        const ReturnedCar = await Booking.findById(bookingId).populate('user').populate('car')
+         const ReturnedCar = await Booking.findById(bookingId).populate('user').populate('car')
         return ReturnedCar
 
     } catch (error: string | unknown) {
         await session.abortTransaction()
         await session.endSession()
-        trhowErrorHandller(error)
+        trhowErrorHandller('Failed to return')
     }
 
 }

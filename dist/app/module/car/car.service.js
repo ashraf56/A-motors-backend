@@ -51,22 +51,37 @@ const deleteAcarDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, function* () {
-    const car = yield booking_model_1.default.findById(bookingId).select('car').populate('car');
+    const car = yield booking_model_1.default.findById(bookingId).populate('car');
     const session = yield (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
+        const carId = car === null || car === void 0 ? void 0 : car.car._id.toString();
+        const carsinfo = yield car_model_1.default.findById(carId);
+        const [startHour, startMin] = car === null || car === void 0 ? void 0 : car.startTime.split(":").map(Number);
+        const [currentEndHour, endmin] = endTime.split(":").map(Number);
+        const currentPricePerHour = carsinfo === null || carsinfo === void 0 ? void 0 : carsinfo.pricePerHour;
+        const totalCurrentcost = car === null || car === void 0 ? void 0 : car.totalCost;
+        // converting current  startTime an endtime into hours
+        const totalStartTime = startHour + startMin / 60;
+        const totalEndTime = currentEndHour + endmin / 60;
+        const totalHours = totalEndTime - totalStartTime;
+        const rideCost = currentPricePerHour * totalHours;
+        const FinalCost = rideCost + totalCurrentcost;
+        const totalFinalcost = Math.ceil(FinalCost);
         const Bookingdata = yield booking_model_1.default.findByIdAndUpdate({ _id: bookingId }, {
-            $set: { endTime: endTime }
+            $set: {
+                endTime: endTime,
+                totalCost: totalFinalcost
+            }
         }, {
             upsert: true, new: true, session
         });
         if (!Bookingdata) {
             (0, trhowErrorHandller_1.default)('Failed to return');
         }
-        const carId = car === null || car === void 0 ? void 0 : car.car._id.toString();
         const updateCarstatus = yield car_model_1.default.findByIdAndUpdate({ _id: carId }, {
             $set: {
-                status: 'available'
+                status: 'available',
             }
         }, {
             new: true, session
@@ -82,7 +97,7 @@ const returnCarDB = (bookingId, endTime) => __awaiter(void 0, void 0, void 0, fu
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        (0, trhowErrorHandller_1.default)(error);
+        (0, trhowErrorHandller_1.default)('Failed to return');
     }
 });
 const updateAcarDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
