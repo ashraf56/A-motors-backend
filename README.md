@@ -9,3 +9,9 @@
 - Mongoose
 - typescript
 - zod
+
+
+## Admin
+ 
+ email: fahim@gmail.com
+ password: 1234
