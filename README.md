@@ -1,7 +1,13 @@
 # A-motors 
 ## Car Rental Reservation System Backend 
 
-
+## features:
+- There are 2 role in Admin and User
+- admin can manage CRUD of car
+- admin can track rent history
+- user can create account
+- user can book muliple car.
+- user can see their booking history.
 
 ## technology used  
 - Express
