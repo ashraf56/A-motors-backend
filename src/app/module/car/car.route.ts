@@ -9,7 +9,7 @@ const router = Router()
 
 router.put('/return', authGuardValidator('admin'), CarContoller.reTurnCarController)
 
-router.post('/create-car',
+router.post('/',
     authGuardValidator('admin'),
     validateRequest(CarValidatons.createAcarValidationSchema),
     CarContoller.createCarController)

@@ -10,6 +10,6 @@ const router = Router()
 router.post('/signup', validateRequest(UserValidations.createUservalidationSchema),
     UserCOntrollers.CreateUserController)
 
-router.post('/login', validateRequest(UserValidations.LoginvalidationSchema), UserCOntrollers.LoginController)
+router.post('/signin', validateRequest(UserValidations.LoginvalidationSchema), UserCOntrollers.LoginController)
 
 export const Userroute = router;
